@@ -1,12 +1,14 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Dashboard SNIS – Nordeste", layout="wide")
+st.set_page_config(page_title="Dashboard SNIS – Diagnóstico", layout="wide")
 
-st.title("📊 Dashboard SNIS – Nordeste")
+st.title("🔎 Diagnóstico dos arquivos SNIS")
+
+st.write("Este app serve apenas para identificar as colunas corretas dos CSV.")
 
 # =====================
-# Leitura dos dados
+# Carregar os CSV
 # =====================
 df_dados = pd.read_csv(
     "snis_nordeste_1_filtrado.csv",
@@ -21,42 +23,12 @@ df_nat = pd.read_csv(
 )
 
 # =====================
-# Ajuste da chave (CONFIRA O NOME)
+# Mostrar colunas
 # =====================
-chave = "CO_PRESTADOR"
+st.subheader("📄 Colunas – snis_nordeste_1_filtrado.csv")
+st.write(df_dados.columns.tolist())
 
-# =====================
-# Merge
-# =====================
-df = df_dados.merge(
-    df_nat[[chave, "NATUREZA_JURIDICA"]],
-    on=chave,
-    how="left"
-)
+st.subheader("📄 Colunas – Agregado-20251216154116.csv")
+st.write(df_nat.columns.tolist())
 
-# =====================
-# Filtros
-# =====================
-st.sidebar.header("🔎 Filtros")
-
-naturezas = st.sidebar.multiselect(
-    "Natureza Jurídica",
-    sorted(df["NATUREZA_JURIDICA"].dropna().unique())
-)
-
-if naturezas:
-    df = df[df["NATUREZA_JURIDICA"].isin(naturezas)]
-
-# =====================
-# Visualização
-# =====================
-st.subheader("📄 Dados filtrados")
-st.dataframe(df)
-
-coluna = st.selectbox(
-    "Selecione um indicador:",
-    df.select_dtypes(include="number").columns
-)
-
-st.subheader("📈 Estatísticas descritivas")
-st.write(df[coluna].describe())
+st.success("Se você está vendo as listas acima, os arquivos foram lidos corretamente.")
