@@ -9,7 +9,7 @@ st.title("📊 Dashboard SNIS – Nordeste")
 # 1. Carregar os dados
 # =====================
 df_dados = pd.read_csv("snis_nordeste_1_filtrado.csv")
-df_nat = pd.read_csv("Agregado-20251216154116.csv", encoding='latin1')
+df_nat = pd.read_csv("Agregado-20251216154116.csv", encoding='ISO-8859-1')
 
 # =====================
 # 2. Padronizar colunas
