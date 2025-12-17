@@ -1,21 +1,22 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Dashboard SNIS – Diagnóstico", layout="wide")
+st.set_page_config(page_title="Dashboard SNIS – Nordeste", layout="wide")
 
-st.title("🔎 Diagnóstico dos arquivos SNIS")
-
-st.write("Este app serve apenas para identificar as colunas corretas dos CSV.")
+st.title("📊 Dashboard SNIS – Nordeste")
 
 # =====================
-# Carregar os CSV
+# Leitura CORRETA dos CSV
 # =====================
+
+# CSV 1 – usa vírgula
 df_dados = pd.read_csv(
     "snis_nordeste_1_filtrado.csv",
-    sep=";",
-    encoding="latin1"
+    sep=",",
+    encoding="utf-8"
 )
 
+# CSV 2 – usa ponto e vírgula
 df_nat = pd.read_csv(
     "Agregado-20251216154116.csv",
     sep=";",
@@ -23,12 +24,13 @@ df_nat = pd.read_csv(
 )
 
 # =====================
-# Mostrar colunas
+# Mostrar colunas (checagem final)
 # =====================
-st.subheader("📄 Colunas – snis_nordeste_1_filtrado.csv")
-st.write(df_dados.columns.tolist())
+with st.expander("🔎 Ver colunas dos arquivos"):
+    st.write("Colunas – dados principais:")
+    st.write(df_dados.columns.tolist())
 
-st.subheader("📄 Colunas – Agregado-20251216154116.csv")
-st.write(df_nat.columns.tolist())
+    st.write("Colunas – natureza jurídica:")
+    st.write(df_nat.columns.tolist())
 
-st.success("Se você está vendo as listas acima, os arquivos foram lidos corretamente.")
+st.success("Arquivos carregados corretamente.")
